@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brand & Identity Creative Brief</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:       #1A1A1A;
+    --cream:     #F7F4EE;
+    --volt:      #F5E642;
+    --chilli:    #FF4F3B;
+    --cobalt:    #3B82F6;
+    --tangerine: #FF9F1C;
+    --sprout:    #B8F5B0;
+    --border:    #E0DDD5;
+    --muted:     #9A9590;
+    --surface:   #EEEAE2;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 64px 64px 56px;
+    position: relative;
+    overflow: hidden;
+  }
+  /* decorative colour blobs */
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .blob-1 { width: 220px; height: 220px; background: var(--volt);      opacity: 0.18; top: -60px;  right: 80px; }
+  .blob-2 { width: 140px; height: 140px; background: var(--chilli);    opacity: 0.22; bottom: -40px; right: 200px; }
+  .blob-3 { width: 100px; height: 100px; background: var(--cobalt);    opacity: 0.18; top: 20px; right: 320px; }
+
+  .header-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--volt);
+    margin-bottom: 28px;
+  }
+  .header-tag::before {
+    content: '';
+    display: block;
+    width: 28px; height: 2px;
+    background: var(--volt);
+    border-radius: 2px;
+  }
+
+  .header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(44px, 8vw, 82px);
+    font-weight: 800;
+    line-height: 0.88;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .h1-a { display: block; color: var(--cream); }
+  .h1-b { display: block; color: transparent; -webkit-text-stroke: 1.5px rgba(247,244,238,0.22); }
+  .h1-c { display: block; color: var(--volt); }
+
+  .header-pills {
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .h-pill {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    padding: 5px 14px;
+    border-radius: 100px;
+    border: 1.5px solid rgba(247,244,238,0.15);
+    color: rgba(247,244,238,0.5);
+  }
+
+  /* ── STICKY PROGRESS ── */
+  .sticky {
+    position: sticky; top: 0; z-index: 200;
+    background: rgba(247,244,238,0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1.5px solid var(--border);
+    padding: 0 64px;
+    display: flex; align-items: center; gap: 20px;
+    height: 54px;
+  }
+  .prog-label {
+    font-size: 10px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--muted);
+    white-space: nowrap;
+  }
+  .prog-track {
+    flex: 1; height: 4px;
+    background: var(--border);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+  .prog-fill {
+    height: 100%;
+    background: var(--volt);
+    width: 0%;
+    border-radius: 100px;
+    transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
+  }
+  .prog-pct {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px; font-weight: 800;
+    color: var(--ink);
+    min-width: 42px; text-align: right;
+  }
+
+  /* ── MAIN ── */
+  .main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 72px 32px 100px;
+  }
+
+  /* ── SECTIONS ── */
+  .section { margin-bottom: 80px; }
+
+  .sec-header { margin-bottom: 28px; }
+  .sec-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 4.5vw, 40px);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .sec-row {
+    display: flex; align-items: center; gap: 14px;
+  }
+  .sec-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px; font-weight: 800;
+    letter-spacing: 0.18em;
+    background: var(--ink);
+    color: var(--volt);
+    padding: 4px 11px;
+    border-radius: 100px;
+  }
+  .sec-line {
+    flex: 1; height: 1.5px;
+    background: var(--border);
+    border-radius: 2px;
+  }
+  /* accent dot per section */
+  .sec-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── FIELDS ── */
+  .fg { display: grid; gap: 16px; }
+  .fg2 { grid-template-columns: 1fr 1fr; }
+  @media(max-width:620px){
+    .fg2 { grid-template-columns: 1fr; }
+    .header { padding: 40px 24px 32px; }
+    .sticky { padding: 0 20px; }
+    .main { padding: 40px 16px 80px; }
+  }
+
+  .field { display: flex; flex-direction: column; gap: 8px; }
+  .field label {
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .field input,
+  .field textarea {
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 13px 16px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    color: var(--ink);
+    outline: none;
+    resize: vertical;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .field input:focus,
+  .field textarea:focus {
+    border-color: var(--ink);
+    box-shadow: 0 0 0 3px rgba(26,26,26,0.07);
+  }
+  .field input::placeholder,
+  .field textarea::placeholder { color: #C8C4BC; }
+  .field textarea { min-height: 88px; }
+  .field textarea.tall { min-height: 112px; }
+
+  /* ── PILLS ── */
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill {
+    padding: 9px 18px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px; font-weight: 500;
+    border: 1.5px solid var(--border);
+    background: white;
+    color: var(--muted);
+    cursor: pointer;
+    border-radius: 100px;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .pill:hover { border-color: var(--ink); color: var(--ink); }
+  .pill.on {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--volt);
+    font-weight: 700;
+  }
+
+  /* ── SLIDERS ── */
+  .sliders { display: grid; gap: 22px; }
+  .slider-wrap { display: flex; flex-direction: column; gap: 8px; }
+  .slider-ends {
+    display: flex; justify-content: space-between;
+    font-size: 11px; color: var(--muted); font-weight: 500;
+  }
+  input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%; height: 4px;
+    background: var(--border);
+    outline: none;
+    cursor: pointer;
+    border-radius: 100px;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px; height: 18px;
+    background: var(--ink);
+    border-radius: 50%;
+    border: 3px solid var(--volt);
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(26,26,26,0.2);
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 18px; height: 18px;
+    background: var(--ink);
+    border-radius: 50%;
+    border: 3px solid var(--volt);
+    cursor: pointer;
+  }
+
+  /* ── COLOUR SWATCH ROW (section 7) ── */
+  .swatch-row {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    margin-bottom: 20px;
+  }
+  .swatch {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 2px solid rgba(26,26,26,0.08);
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .swatch:hover { transform: scale(1.15); box-shadow: 0 4px 12px rgba(26,26,26,0.15); }
+  .swatch.picked::after {
+    content: '✓';
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700;
+    color: var(--ink);
+  }
+  .swatch-label { font-size: 10px; color: var(--muted); letter-spacing: 0.1em; align-self: center; }
+
+  /* ── ACTIONS ── */
+  .actions {
+    display: flex; gap: 10px; flex-wrap: wrap;
+    margin-top: 56px; padding-top: 36px;
+    border-top: 1.5px solid var(--border);
+  }
+  .btn {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px; font-weight: 800;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    padding: 15px 28px;
+    border: none; cursor: pointer;
+    transition: all 0.18s;
+    border-radius: 100px;
+  }
+  .btn-p { background: var(--ink); color: var(--volt); }
+  .btn-p:hover { background: #333; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(26,26,26,0.18); }
+  .btn-pdf {
+    background: var(--volt); color: var(--ink);
+    border: none;
+  }
+  .btn-pdf:hover { background: #f0da20; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(245,230,66,0.35); }
+  .btn-s {
+    background: transparent; color: var(--ink);
+    border: 1.5px solid var(--border);
+  }
+  .btn-s:hover { border-color: var(--ink); }
+  .btn-d {
+    background: transparent; color: var(--muted);
+    border: 1.5px solid var(--border);
+  }
+  .btn-d:hover { border-color: var(--chilli); color: var(--chilli); }
+
+  /* ── SUMMARY ── */
+  .summary {
+    display: none;
+    margin-top: 52px;
+    background: var(--ink);
+    color: var(--cream);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+  .summary.show { display: block; animation: riseUp 0.4s cubic-bezier(0.4,0,0.2,1) both; }
+  @keyframes riseUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:none; } }
+
+  .sum-top {
+    padding: 36px 44px;
+    background: #111;
+    display: flex; justify-content: space-between; align-items: flex-end; gap: 20px;
+  }
+  .sum-top h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: -0.02em; line-height: 1.1;
+  }
+  .sum-top h2 em { color: var(--volt); font-style: normal; }
+  .sum-date { font-size: 10px; color: #666; letter-spacing: 0.18em; text-transform: uppercase; }
+  .sum-body { padding: 8px 44px 44px; }
+  .sum-row {
+    display: grid; grid-template-columns: 170px 1fr;
+    gap: 12px; padding: 14px 0;
+    border-bottom: 1px solid #2a2a2a;
+    align-items: start;
+  }
+  .sk { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--volt); padding-top: 2px; font-weight: 600; }
+  .sv { font-size: 13px; color: var(--cream); line-height: 1.6; font-family: 'Space Grotesk', sans-serif; }
+  .sv.empty { color: #555; font-style: italic; }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed; bottom: 28px; right: 28px;
+    background: var(--ink);
+    color: var(--volt);
+    padding: 12px 22px;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px; font-weight: 800;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    border-radius: 100px;
+    box-shadow: 0 8px 30px rgba(26,26,26,0.25);
+    transform: translateY(60px); opacity: 0;
+    transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    z-index: 9999;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="header-tag">Creative Document</div>
+  <h1>
+    <span class="h1-a">Brand</span>
+    <span class="h1-b">&amp; Identity</span>
+    <span class="h1-c">Brief</span>
+  </h1>
+  <div class="header-pills">
+    <span class="h-pill">8 Sections</span>
+    <span class="h-pill">Fill in each field</span>
+    <span class="h-pill">Generate &amp; download when done</span>
+  </div>
+</header>
+
+<div class="sticky">
+  <span class="prog-label">Progress</span>
+  <div class="prog-track"><div class="prog-fill" id="pFill"></div></div>
+  <div class="prog-pct" id="pPct">0%</div>
+</div>
+
+<main class="main">
+
+  <!-- 01 The Project -->
+  <section class="section">
+    <div class="sec-header">
+      <div class="sec-title">The Project</div>
+      <div class="sec-row">
+        <span class="sec-num">01</span>
+        <div class="sec-line"></div>
+        <div class="sec-dot" style="background:var(--volt)"></div>
+      </div>
+    </div>
+    <div class="fg fg2">
+      <div class="field"><label>Brand / Company Name</label><input id="brandName" type="text" placeholder="e.g. Studio Nova" /></div>
+      <div class="field"><label>Industry / Category</label><input id="industry" type="text" placeholder="e.g. Graphic Design" /></div>
+    </div>
+    <div class="fg" style="margin-top:16px">
+      <div class="field"><label>Project Description</label><textarea id="projectDesc" placeholder="New brand, rebrand, or refresh? Describe the scope."></textarea></div>
+      <div class="field"><label>Background &amp; Context</label><textarea id="background" placeholder="What led to this project? History, pivots, important context?"></textarea></div>
+    </div>
+  </section>
+
+  <!-- 02 Objectives -->
+  <section class="section">
+    <div class="sec-header">
+      <div class="sec-title">Objectives</div>
+      <div class="sec-row">
+        <span class="sec-num">02</span>
+        <div class="sec-line"></div>
+        <div class="sec-dot" style="background:var(--chilli)"></div>
+      </div>
+    </div>
+    <div class="fg">
+      <div class="field"><label>Primary Goal</label><input id="primaryGoal" type="text" placeholder="e.g. Build a distinct identity that reflects the brand's personality" /></div>
+      <div class="field"><label>Secondary Goals</label><textarea id="secondaryGoals" placeholder="e.g. Stand out visually, feel personal, translate well across digital..."></textarea></div>
+      <div class="field"><label>What does success look like in 6 months?</label><textarea id="success" placeholder="e.g. Strong personality across visuals, clear artistic identity, emotional connection..."></textarea></div>
+    </div>
+  </section>
+
+  <!-- 03 Target Audience -->
+  <section class="section">
+    <div class="sec-header">
+      <div class="sec-title">Target Audience</div>
+      <div class="sec-row">
+        <span class="sec-num">03</span>
+        <div class="sec-line"></div>
+        <div class="sec-dot" style="background:var(--cobalt)"></div>
+      </div>
+    </div>
+    <div class="fg fg2">
+      <div class="field"><label>Primary Audience</label><input id="audiencePrimary" type="text" placeholder="e.g. Brands, creators, culture-focused projects, ages 15–35" /></div>
+      <div class="field"><label>Secondary Audience</label><input id="audienceSecondary" type="text" placeholder="e.g. Social media platforms, digital communities" /></div>
+    </div>
+    <div class="fg" style="margin-top:16px">
+      <div class="field"><label>Audience Values &amp; Motivations</label><textarea id="audienceValues" placeholder="What do they care about? What drives their decisions?"></textarea></div>
+    </div>
+  </section>
+
+  <!-- 04 Brand Personality -->
+  <section class="section">
+    <div class="sec-header">
+      <div class="sec-title">Brand Personality</div>
+      <div class="sec-row">
+        <span class="sec-num">04</span>
+        <div class="sec-line"></div>
+        <div class="sec-dot" style="background:var(--tangerine)"></div>
+      </div>
+    </div>
+    <div class="pills" id="pillGrid"></div>
+    <div class="field" style="margin-top:16px">
+      <label>Anything else about voice or character?</label>
+      <textarea id="personalityExtra" placeholder="e.g. Conversational and human, but confident. Not corporate. Feels like a person, not an agency."></textarea>
+    </div>
+  </section>
+
+  <!-- 05 Brand Positioning -->
+  <section class="section">
+    <div class="sec-header">
+      <div class="sec-title">Brand Positioning</div>
+      <div class="sec-row">
+        <span class="sec-num">05</span>
+        <div class="sec-line"></div>
+        <div class="sec-dot" style="background:var(--sprout)"></div>
+      </div>
+    </div>
+    <div class="sliders">
+      <div class="slider-wrap"><div class="slider-ends"><span>Traditional</span><span>Modern</span></div><input type="range" id="s1" min="1" max="10" value="5" /></div>
+      <div class="slider-wrap"><div class="slider-ends"><span>Playful</span><span>Serious</span></div><input type="range" id="s2" min="1" max="10" value="5" /></div>
+      <div class="slider-wrap"><div class="slider-ends"><span>Accessible / Mass</span><span>Exclusive / Premium</span></div><input type="range" id="s3" min="1" max="10" value="5" /></div>
+      <div class="slider-wrap"><div class="slider-ends"><span>Quiet / Understated</span><span>Bold / Expressive</span></div><input type="range" id="s4" min="1" max="10" value="5" /></div>
+    </div>
+  </section>
+
+  <!-- 06 Competition -->
+  <section class="section">
+    <div class="sec-header">
+      <div class="sec-title">Competition</div>
+      <div class="sec-row">
+        <span class="sec-num">06</span>
+        <div class="sec-line"></div>
+        <div class="sec-dot" style="background:var(--chilli)"></div>
+      </div>
+    </div>
+    <div class="fg">
+      <div class="field"><label>Key Competitors</label><input id="competitors" type="text" placeholder="e.g. Brand A, Brand B — or 'none identified'" /></div>
+      <div class="field"><label>What sets this brand apart?</label><textarea id="differentiation" placeholder="Focus on personality, artistic expression, and what makes this brand feel personal rather than generic."></textarea></div>
+    </div>
+  </section>
+
+  <!-- 07 Creative Direction -->
+  <section class="section">
+    <div class="sec-header">
+      <div class="sec-title">Creative Direction</div>
+      <div class="sec-row">
+        <span class="sec-num">07</span>
+        <div class="sec-line"></div>
+        <div class="sec-dot" style="background:var(--volt)"></div>
+      </div>
+    </div>
+    <div class="fg">
+      <div class="field"><label>Visual References / Inspiration</label><textarea id="inspiration" placeholder="Brands, aesthetics, moods, or images that feel right. Links welcome."></textarea></div>
+      <div class="field"><label>What to Avoid</label><textarea id="avoid" placeholder="e.g. Overly simple identities, generic minimalism, safe layouts, trend-heavy styles..."></textarea></div>
+      <div class="field"><label>What to Embrace</label><textarea id="embrace" placeholder="e.g. Expressive layouts, artistic composition, visual energy, personality-driven design..."></textarea></div>
+      <div class="fg fg2">
+        <div class="field"><label>Color Preferences</label><input id="colors" type="text" placeholder="e.g. Happy, expressive, warm — avoid muted neutrals" /></div>
+        <div class="field"><label>Typography Feel</label><input id="typography" type="text" placeholder="e.g. Friendly, slightly comical, expressive — not generic sans-serif" /></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 Logistics -->
+  <section class="section">
+    <div class="sec-header">
+      <div class="sec-title">Logistics</div>
+      <div class="sec-row">
+        <span class="sec-num">08</span>
+        <div class="sec-line"></div>
+        <div class="sec-dot" style="background:var(--cobalt)"></div>
+      </div>
+    </div>
+    <div class="fg fg2">
+      <div class="field"><label>Deliverables</label><input id="deliverables" type="text" placeholder="e.g. Logo system, color palette, type system, guidelines, social visuals" /></div>
+      <div class="field"><label>Timeline / Launch Date</label><input id="timeline" type="text" placeholder="e.g. 8 weeks, launch by Q3 2026" /></div>
+      <div class="field"><label>Budget Range</label><input id="budget" type="text" placeholder="e.g. $10k–$20k" /></div>
+      <div class="field"><label>Decision Maker(s)</label><input id="stakeholders" type="text" placeholder="Who has final approval?" /></div>
+    </div>
+    <div class="field" style="margin-top:16px">
+      <label>Anything else the creative team should know?</label>
+      <textarea class="tall" id="notes" placeholder="Constraints, sensitivities, non-negotiables, or anything that helps the team hit the ground running."></textarea>
+    </div>
+  </section>
+
+  <div class="actions">
+    <button class="btn btn-p"   onclick="generateSummary()">Generate Brief</button>
+    <button class="btn btn-pdf" onclick="downloadPDF()">Download PDF</button>
+    <button class="btn btn-s"   onclick="copyBrief()">Copy Text</button>
+    <button class="btn btn-d"   onclick="clearAll()">Clear All</button>
+  </div>
+
+  <div class="summary" id="summaryPanel">
+    <div class="sum-top">
+      <h2>Brand &amp; Identity<br><em>Creative Brief</em></h2>
+      <div class="sum-date" id="sumDate"></div>
+    </div>
+    <div class="sum-body" id="sumBody"></div>
+  </div>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const traits = ["Playful","Authoritative","Friendly","Honest","Artistic","Creative","Bold","Expressive","Experimental","Warm","Confident","Grounded","Energetic","Innovative","Witty","Aspirational","Minimal","Sophisticated","Rebellious","Premium","Timeless","Disruptive"];
+  const pillGrid = document.getElementById('pillGrid');
+  traits.forEach(t => {
+    const p = document.createElement('div');
+    p.className = 'pill';
+    p.textContent = t;
+    p.onclick = () => { p.classList.toggle('on'); updateProgress(); };
+    pillGrid.appendChild(p);
+  });
+
+  const tracked = ['brandName','industry','projectDesc','background','primaryGoal','secondaryGoals','success','audiencePrimary','audienceValues','competitors','differentiation','inspiration','deliverables','timeline'];
+
+  function updateProgress() {
+    let n = tracked.filter(id => { const el = document.getElementById(id); return el && el.value.trim(); }).length;
+    if (document.querySelectorAll('.pill.on').length) n++;
+    const pct = Math.round(n / (tracked.length + 1) * 100);
+    document.getElementById('pFill').style.width = pct + '%';
+    document.getElementById('pPct').textContent = pct + '%';
+  }
+  tracked.forEach(id => { const el = document.getElementById(id); if(el) el.addEventListener('input', updateProgress); });
+
+  const v = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
+
+  function sLabel(id, a, b) {
+    const n = parseInt(document.getElementById(id).value);
+    return n <= 3 ? `Leans ${a} (${n}/10)` : n >= 8 ? `Leans ${b} (${n}/10)` : `Balanced (${n}/10)`;
+  }
+
+  function allRows() {
+    const sel = [...document.querySelectorAll('.pill.on')].map(p => p.textContent);
+    return [
+      ['Brand Name', v('brandName')], ['Industry', v('industry')],
+      ['Project', v('projectDesc')], ['Background', v('background')],
+      ['Primary Goal', v('primaryGoal')], ['Secondary Goals', v('secondaryGoals')],
+      ['Success Looks Like', v('success')], ['Primary Audience', v('audiencePrimary')],
+      ['Secondary Audience', v('audienceSecondary')], ['Audience Values', v('audienceValues')],
+      ['Brand Personality', sel.join(', ')], ['Personality Notes', v('personalityExtra')],
+      ['Traditional / Modern', sLabel('s1','Traditional','Modern')],
+      ['Playful / Serious', sLabel('s2','Playful','Serious')],
+      ['Access / Premium', sLabel('s3','Accessible','Exclusive')],
+      ['Quiet / Bold', sLabel('s4','Understated','Bold')],
+      ['Competitors', v('competitors')], ['Differentiation', v('differentiation')],
+      ['Visual Inspiration', v('inspiration')], ['Avoid', v('avoid')],
+      ['Embrace', v('embrace')], ['Colors', v('colors')],
+      ['Typography', v('typography')], ['Deliverables', v('deliverables')],
+      ['Timeline', v('timeline')], ['Budget', v('budget')],
+      ['Decision Maker', v('stakeholders')], ['Notes', v('notes')],
+    ];
+  }
+
+  function generateSummary() {
+    const rows = allRows();
+    document.getElementById('sumDate').textContent = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}).toUpperCase();
+    document.getElementById('sumBody').innerHTML = rows.map(([k, val]) =>
+      `<div class="sum-row"><div class="sk">${k}</div><div class="sv${!val?' empty':''}">${val||'—'}</div></div>`
+    ).join('');
+    const panel = document.getElementById('summaryPanel');
+    panel.classList.add('show');
+    setTimeout(() => panel.scrollIntoView({ behavior:'smooth', block:'start' }), 80);
+    showToast('Brief generated');
+  }
+
+  function copyBrief() {
+    const rows = allRows();
+    const txt = ['BRAND & IDENTITY CREATIVE BRIEF','================================','', ...rows.map(([k,val]) => `${k}: ${val||'—'}`)].join('\n');
+    navigator.clipboard.writeText(txt).then(() => showToast('Copied'));
+  }
+
+  function clearAll() {
+    if (!confirm('Clear everything?')) return;
+    document.querySelectorAll('input[type=text], textarea').forEach(el => el.value = '');
+    document.querySelectorAll('input[type=range]').forEach(el => el.value = 5);
+    document.querySelectorAll('.pill.on').forEach(p => p.classList.remove('on'));
+    document.getElementById('summaryPanel').classList.remove('show');
+    updateProgress();
+    showToast('Cleared');
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  // ── PDF EXPORT ──
+  function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+    const pw = doc.internal.pageSize.getWidth();
+    const ph = doc.internal.pageSize.getHeight();
+    const ml = 48, mr = 48;
+    const colW = 140;
+    const valX = ml + colW + 12;
+    const valW = pw - valX - mr;
+    let y = ml;
+
+    const rows = allRows();
+    const volt      = [245, 230, 66];
+    const ink       = [26,  26,  26];
+    const cream     = [247, 244, 238];
+    const chilli    = [255, 79,  59];
+    const cobalt    = [59,  130, 246];
+    const tangerine = [255, 159, 28];
+    const muted     = [154, 149, 144];
+    const border    = [224, 221, 213];
+    const surface   = [238, 234, 226];
+
+    // Section accent colours (cycling)
+    const accentCols = [volt, chilli, cobalt, tangerine, [184,245,176], chilli, volt, cobalt];
+
+    function bgFill() {
+      doc.setFillColor(...cream);
+      doc.rect(0, 0, pw, ph, 'F');
+    }
+
+    function newPage() {
+      doc.addPage();
+      bgFill();
+      y = ml;
+    }
+
+    function needSpace(h) {
+      if (y + h > ph - ml) newPage();
+    }
+
+    // ── Page 1: Header ──
+    bgFill();
+
+    // Header block
+    doc.setFillColor(...ink);
+    doc.roundedRect(0, 0, pw, 130, 0, 0, 'F');
+
+    // Blobs
+    doc.setFillColor(245, 230, 66);
+    doc.circle(pw - 60, -20, 70, 'F');
+    doc.setGState(new doc.GState({ opacity: 0.5 }));
+    doc.setFillColor(...chilli);
+    doc.circle(pw - 180, 100, 45, 'F');
+    doc.setFillColor(...cobalt);
+    doc.circle(pw - 300, 20, 32, 'F');
+    doc.setGState(new doc.GState({ opacity: 1 }));
+
+    // Tag line
+    doc.setFillColor(...volt);
+    doc.rect(ml, 36, 22, 2, 'F');
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7.5);
+    doc.setTextColor(...volt);
+    doc.text('CREATIVE DOCUMENT', ml + 30, 38);
+
+    // Title
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(30);
+    doc.setTextColor(...cream);
+    doc.text('BRAND & IDENTITY BRIEF', ml, 80);
+
+    // Date
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(...muted);
+    const dateStr = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}).toUpperCase();
+    doc.text(dateStr, ml, 104);
+
+    y = 150;
+
+    // Section headers map
+    const sectionMeta = [
+      { title: 'THE PROJECT',       fields: ['Brand Name','Industry','Project','Background'] },
+      { title: 'OBJECTIVES',        fields: ['Primary Goal','Secondary Goals','Success Looks Like'] },
+      { title: 'TARGET AUDIENCE',   fields: ['Primary Audience','Secondary Audience','Audience Values'] },
+      { title: 'BRAND PERSONALITY', fields: ['Brand Personality','Personality Notes'] },
+      { title: 'POSITIONING',       fields: ['Traditional / Modern','Playful / Serious','Access / Premium','Quiet / Bold'] },
+      { title: 'COMPETITION',       fields: ['Competitors','Differentiation'] },
+      { title: 'CREATIVE DIRECTION',fields: ['Visual Inspiration','Avoid','Embrace','Colors','Typography'] },
+      { title: 'LOGISTICS',         fields: ['Deliverables','Timeline','Budget','Decision Maker','Notes'] },
+    ];
+
+    let sectionIdx = 0;
+    let rowsHandled = 0;
+
+    sectionMeta.forEach((sec, si) => {
+      const accent = accentCols[si % accentCols.length];
+
+      // Section heading
+      needSpace(48);
+      // Num pill
+      doc.setFillColor(...ink);
+      doc.roundedRect(ml, y, 32, 16, 8, 8, 'F');
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(7);
+      doc.setTextColor(...volt);
+      doc.text(String(si + 1).padStart(2,'0'), ml + 6, y + 11);
+
+      // Title
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(14);
+      doc.setTextColor(...ink);
+      doc.text(sec.title, ml + 40, y + 11);
+
+      // Accent dot
+      doc.setFillColor(...accent);
+      doc.circle(pw - mr, y + 8, 5, 'F');
+
+      // Divider
+      doc.setDrawColor(...border);
+      doc.setLineWidth(1);
+      doc.line(ml, y + 20, pw - mr, y + 20);
+
+      y += 32;
+
+      // Rows for this section
+      const sectionRows = rows.slice(rowsHandled, rowsHandled + sec.fields.length);
+      rowsHandled += sec.fields.length;
+
+      sectionRows.forEach(([key, val]) => {
+        const displayVal = val || '—';
+        doc.setFontSize(8.5);
+        const lines = doc.splitTextToSize(displayVal, valW);
+        const blockH = Math.max(26, lines.length * 13 + 12);
+        needSpace(blockH + 6);
+
+        // Key
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(7.5);
+        doc.setTextColor(...muted);
+        doc.text(key.toUpperCase(), ml, y + 13);
+
+        // Value
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(9);
+        doc.setTextColor(val ? ...ink : ...muted);
+        doc.text(lines, valX, y + 13);
+
+        y += blockH;
+
+        // Row divider
+        doc.setDrawColor(...border);
+        doc.setLineWidth(0.5);
+        doc.line(ml, y, pw - mr, y);
+        y += 6;
+      });
+
+      y += 16; // gap between sections
+    });
+
+    const brandName = v('brandName') || 'brief';
+    doc.save(`${brandName.toLowerCase().replace(/\s+/g,'-')}-creative-brief.pdf`);
+    showToast('PDF downloaded');
+  }
+
+  updateProgress();
+</script>
+</body>
+</html>
